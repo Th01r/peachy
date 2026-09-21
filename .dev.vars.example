@@ -1,0 +1,18 @@
+# Copy to .dev.vars for `wrangler dev`. In production these are set via
+# `wrangler secret put <NAME>` (see README) - never commit real values.
+
+APP_URL=http://localhost:8787
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GROQ_API_KEY=
+GEMINI_API_KEY=
+RESEND_API_KEY=
+FROM_EMAIL=Peachy <noreply@yourdomain.com>
+YT_API_KEY=
+POLAR_ACCESS_TOKEN=
+POLAR_WEBHOOK_SECRET=
+POLAR_PRODUCT_ID=
+POLAR_SERVER=sandbox
+ENCRYPTION_KEY=
+SESSION_SECRET=
+BATCH_SECRET=

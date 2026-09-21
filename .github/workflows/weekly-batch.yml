@@ -1,0 +1,16 @@
+name: Weekly title batch
+
+on:
+  schedule:
+    - cron: "0 14 * * 1" # every Monday 14:00 UTC
+  workflow_dispatch: {} # allow manual trigger from the Actions tab
+
+jobs:
+  run-batch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call /api/run-weekly-batch
+        run: |
+          curl -sf -X POST "${{ secrets.PEACHY_APP_URL }}/api/run-weekly-batch" \
+            -H "x-batch-secret: ${{ secrets.PEACHY_BATCH_SECRET }}" \
+            -H "content-type: application/json"
