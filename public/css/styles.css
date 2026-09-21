@@ -56,7 +56,8 @@ a:hover { text-decoration: underline; }
   padding: 12px 24px;
 }
 .brand { display: flex; align-items: center; gap: 10px; }
-.brand img { width: 32px; height: 32px; border-radius: 8px; }
+.brand img { height: 32px; width: auto; }
+.nav-user-icon { width: 18px; height: 18px; vertical-align: middle; }
 .brand span { font-family: "Fraunces", serif; font-weight: 600; font-size: 1.2rem; color: #3a2a1f; }
 .nav-right { display: flex; align-items: center; gap: 20px; position: relative; }
 .nav-icon { cursor: pointer; font-size: 1.1rem; color: var(--ink); position: relative; background: none; border: none; }
