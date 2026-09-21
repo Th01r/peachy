@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peachy — Weekly YouTube title optimization, on autopilot</title>
+<meta name="description" content="Peachy watches 5 of your videos for 12 weeks, rewrites titles for current search trends, and applies them automatically. One payment, no subscription, revert any change in one click.">
+<link rel="canonical" href="https://peachy.example.com/">
+<meta property="og:title" content="Peachy — Weekly YouTube title optimization">
+<meta property="og:description" content="12 weeks of automatic, trend-aware title updates for 5 of your videos. One-time payment.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://peachy.example.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="/">
+    <img src="/img/brand-placeholder.svg" alt="Peachy logo">
+    <span>Peachy</span>
+  </a>
+  <div class="nav-right">
+    <a class="nav-icon" href="/pricing.html">$
+      <span class="popover"><strong>$79 / job</strong><br>5 videos, 12 weekly title updates, revert anytime.</span>
+    </a>
+    <a class="nav-icon" id="nav-account-target" href="/#start">👤
+      <span class="popover">Not signed in yet</span>
+    </a>
+  </div>
+</div></nav>
+
+<main class="wrap">
+  <header class="hero">
+    <h1>Your titles, re-optimized every week, automatically.</h1>
+    <p>Peachy reads your video's transcript and current search trends, writes a better title, and publishes it for you — every week for 12 weeks. One payment covers 5 videos. Hate a change? Revert it in one click from the email.</p>
+    <p><a class="btn" id="start" href="/wizard.html">Start a job</a></p>
+  </header>
+
+  <section class="card" aria-labelledby="how-it-works">
+    <h2 id="how-it-works">How it works</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div><strong>Link your channel.</strong> Sign in with Google, then grant YouTube access to the 5 videos you pick.</div></div>
+      <div class="step"><div class="step-num">2</div><div><strong>Pick 5 videos & a style.</strong> Choose the title style and psychological angle you want applied.</div></div>
+      <div class="step"><div class="step-num">3</div><div><strong>We run weekly for 12 weeks.</strong> Each week Peachy checks trends, writes one new title per video, and applies it directly.</div></div>
+      <div class="step"><div class="step-num">4</div><div><strong>You get a digest, always.</strong> Every change lands in your inbox with a one-click revert link.</div></div>
+    </div>
+  </section>
+
+  <section class="grid grid-3" style="margin-top:24px;">
+    <div class="card"><h3>Not real-time</h3><p>Once a week, on purpose. No jittery daily rewrites.</p></div>
+    <div class="card"><h3>Reverts are free</h3><p>Every title change comes with a no-login revert link, forever.</p></div>
+    <div class="card"><h3>One payment</h3><p>No subscription. 12 weeks, 5 videos, done.</p></div>
+  </section>
+
+  <section class="card" style="margin-top:24px;" aria-labelledby="consent-heading">
+    <h2 id="consent-heading">About the Google sign-in warning</h2>
+    <div class="warn-box">
+      Peachy is a small, independent tool serving under 100 creators, so it hasn't gone through Google's
+      full app-verification review. When you connect your channel, Google will show an
+      <strong>"unverified app"</strong> warning screen — that's expected. Click <em>Advanced → Go to Peachy (unsafe)</em>
+      to continue. We only ever request access to update your video titles; we never post, delete, or read
+      your messages.
+    </div>
+  </section>
+
+  <section id="leadgen" class="card" style="margin-top:24px;">
+    <h2>See it on one of your videos, free</h2>
+    <p>Paste a public YouTube link and we'll generate one sample title — no sign-in needed.</p>
+    <form id="leadgen-form" style="display:flex;gap:10px;flex-wrap:wrap;">
+      <input type="url" name="url" placeholder="https://youtube.com/watch?v=..." required
+        style="flex:1;min-width:240px;padding:12px 16px;border-radius:10px;border:1.5px solid var(--accent-dim);font-family:inherit;">
+      <button class="btn" type="submit">Generate sample</button>
+    </form>
+    <div id="leadgen-result" style="margin-top:16px;"></div>
+  </section>
+</main>
+
+<footer class="wrap">© Peachy. Titles change, revert anytime.</footer>
+
+<script src="/js/nav.js"></script>
+<script src="/js/capacity.js"></script>
+<script>
+document.getElementById("leadgen-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const url = new FormData(e.target).get("url");
+  const out = document.getElementById("leadgen-result");
+  out.textContent = "Generating...";
+  const res = await fetch("/api/leadgen/sample", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ url }),
+  });
+  const data = await res.json();
+  out.innerHTML = res.ok
+    ? `<p style="text-decoration:line-through;opacity:.6;">${data.originalTitle}</p><p style="font-weight:600;">${data.suggestedTitle}</p>`
+    : `<p style="color:var(--accent);">${data.error}</p>`;
+});
+</script>
+</body>
+</html>

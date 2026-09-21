@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start a job — Peachy</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="/"><img src="/img/brand-placeholder.svg" alt="Peachy logo"><span>Peachy</span></a>
+  <div class="nav-right">
+    <a class="nav-icon" href="/pricing.html">$<span class="popover"><strong>$79 / job</strong></span></a>
+    <a class="nav-icon" id="nav-account-target" href="/#start">👤<span class="popover">Not signed in yet</span></a>
+  </div>
+</div></nav>
+
+<main class="wrap" style="max-width:640px;">
+  <div class="progress">
+    <div class="progress-dot" data-step="1"></div>
+    <div class="progress-dot" data-step="2"></div>
+    <div class="progress-dot" data-step="3"></div>
+    <div class="progress-dot" data-step="4"></div>
+  </div>
+
+  <section class="card" id="step-1">
+    <h1>Link your YouTube channel</h1>
+    <div class="warn-box" style="margin:16px 0;">
+      Google will show an "unverified app" warning — that's expected for a small tool like Peachy.
+      Choose <em>Advanced → Go to Peachy (unsafe)</em> to continue.
+    </div>
+    <a class="btn" href="/api/auth/google/youtube/start" id="link-youtube-btn">Connect with Google</a>
+  </section>
+
+  <section class="card" id="step-2" hidden>
+    <h1>Pick 5 videos</h1>
+    <div style="display:flex;gap:10px;margin-bottom:16px;">
+      <select id="sort-by">
+        <option value="recency">Newest first</option>
+        <option value="performance">Most views first</option>
+      </select>
+    </div>
+    <div id="video-list" class="grid" style="gap:10px;"></div>
+    <p id="select-count" style="margin-top:12px;color:var(--ink-dim);">0 / 5 selected</p>
+    <button class="btn" id="to-step-3" disabled>Continue</button>
+  </section>
+
+  <section class="card" id="step-3" hidden>
+    <h1>Style, angle & summaries</h1>
+    <label>Title style
+      <select id="title-style">
+        <option value="veritasium">Veritasium — curiosity-driven, understated</option>
+        <option value="mr_beast">MrBeast — high-stakes, scale-forward</option>
+        <option value="how_to">How-to — direct, instructional</option>
+        <option value="listicle">Listicle — numbered</option>
+        <option value="direct_seo">Direct SEO — plain, keyword-first</option>
+      </select>
+    </label>
+    <label style="display:block;margin-top:14px;">Angle
+      <select id="title-angle">
+        <option value="problem_unaware">Surfaces an unnoticed problem</option>
+        <option value="curiosity_gap">Withholds a key detail</option>
+        <option value="benefit_driven">Leads with the outcome</option>
+        <option value="social_proof">Leans on scale/credibility</option>
+      </select>
+    </label>
+    <div id="summary-fields" style="margin-top:20px;"></div>
+    <div class="card" style="margin-top:20px;background:#fff5ee;">
+      <h3>Review</h3>
+      <p id="review-summary" style="color:var(--ink-dim);"></p>
+    </div>
+    <button class="btn" id="to-step-4" style="margin-top:16px;">Continue to payment</button>
+  </section>
+
+  <section class="card" id="step-4" hidden>
+    <h1>Payment</h1>
+    <p>5 videos · 12 weekly runs over 3 months · auto-applied titles · revert anytime by email.</p>
+    <button class="btn" id="checkout-btn">Pay & start job</button>
+  </section>
+</main>
+
+<script src="/js/nav.js"></script>
+<script src="/js/capacity.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>

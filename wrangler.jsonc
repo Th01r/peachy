@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "peachy",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS"
+  },
+  "observability": { "enabled": true },
+  "vars": {
+    "MAX_ACTIVE_JOBS": "150"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "peachy-db"
+    }
+  ]
+}

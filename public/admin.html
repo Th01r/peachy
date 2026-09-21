@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internal dashboard — Peachy</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<main class="wrap" style="max-width:640px;padding-top:40px;">
+  <div class="card">
+    <h1>Internal dashboard</h1>
+    <label>Batch secret <input id="secret" type="password" style="padding:8px;border-radius:8px;border:1.5px solid var(--accent-dim);"></label>
+    <button class="btn" id="load">Load stats</button>
+    <pre id="out" style="margin-top:16px;white-space:pre-wrap;font-size:.85rem;"></pre>
+  </div>
+</main>
+<script>
+document.getElementById("load").addEventListener("click", async () => {
+  const res = await fetch("/api/admin/stats", { headers: { "x-batch-secret": document.getElementById("secret").value } });
+  document.getElementById("out").textContent = JSON.stringify(await res.json(), null, 2);
+});
+</script>
+</body>
+</html>

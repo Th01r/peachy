@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /wizard.html
+Disallow: /account.html
+Disallow: /admin.html
+Sitemap: https://peachy.example.com/sitemap.xml
