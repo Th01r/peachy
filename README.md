@@ -6,7 +6,6 @@ in one Worker), **D1**, **Hono**, **Groq→Gemini** LLM fallback, **Resend** ema
 **Polar** checkout, **GitHub Actions** cron. All free, no credit card except at the
 customer's Polar checkout.
 
-
 ## 0. What's in this repo
 
 ```
