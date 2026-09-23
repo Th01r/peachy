@@ -6,7 +6,6 @@ in one Worker), **D1**, **Hono**, **Groq→Gemini** LLM fallback, **Resend** ema
 **Polar** checkout, **GitHub Actions** cron. All free, no credit card except at the
 customer's Polar checkout.
 
-
 ## 0. What's in this repo
 
 ```
@@ -90,7 +89,12 @@ the verified domain.
 ## 7. Polar (payments)
 
 1. https://polar.sh → create an organization (free, no CC).
-2. Create a **Product**: one-time price, e.g. $79 — copy its ID → `POLAR_PRODUCT_ID`.
+2. Create **two Products**, both one-time price:
+   - "Peachy — Launch price" at **$65** → copy its ID → `POLAR_PRODUCT_ID_LAUNCH`
+   - "Peachy — Regular price" at **$79** → copy its ID → `POLAR_PRODUCT_ID_REGULAR`
+   The app automatically checkouts against whichever one is currently active
+   based on `LAUNCH_PRICE_ENDS` (§11) — nobody has to remember to raise the
+   price by hand, and the displayed price can never drift from the charged price.
 3. **Settings → Developers** → create an access token → `POLAR_ACCESS_TOKEN`.
 4. **Settings → Webhooks** → Add endpoint:
    `https://<your-worker>.workers.dev/api/checkout/webhook/polar`, subscribe to
@@ -112,15 +116,16 @@ Secrets → Add**, add each of these as an encrypted secret:
 ```
 APP_URL GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GROQ_API_KEY GEMINI_API_KEY
 RESEND_API_KEY FROM_EMAIL YT_API_KEY POLAR_ACCESS_TOKEN POLAR_WEBHOOK_SECRET
-POLAR_PRODUCT_ID POLAR_SERVER ENCRYPTION_KEY SESSION_SECRET BATCH_SECRET
+POLAR_PRODUCT_ID_LAUNCH POLAR_PRODUCT_ID_REGULAR POLAR_SERVER
+ENCRYPTION_KEY SESSION_SECRET BATCH_SECRET
 ```
 
 `APP_URL` is your `*.workers.dev` URL (or custom domain once attached). Saving
 secrets triggers a redeploy automatically — nothing else to run.
 
-`MAX_ACTIVE_JOBS` (the 150-job capacity cap, see §11) is a plain, non-secret
-var already set in `wrangler.jsonc` — edit it there and push to change it,
-or override per-environment in the same Variables screen.
+`MAX_ACTIVE_JOBS`, `LAUNCH_PRICE`, `REGULAR_PRICE`, and `LAUNCH_PRICE_ENDS`
+are plain, non-secret vars already set in `wrangler.jsonc` — edit them there
+and push to change them, or override per-environment in the same Variables screen.
 
 ## 9. GitHub Actions weekly cron
 
@@ -172,7 +177,33 @@ more `videos.update` calls than the YouTube API quota safely covers.
 To raise the cap later (e.g. after confirming real quota headroom), change
 `MAX_ACTIVE_JOBS` in `wrangler.jsonc` and push — no other code changes needed.
 
-## 12. Internal dashboard
+## 12. Launch pricing & the pre-checkout comparison screen
+
+- `src/lib/pricing.ts` is the single source of truth: `LAUNCH_PRICE_ENDS`
+  (an ISO datetime var in `wrangler.jsonc`) decides both what price is
+  *displayed* (`GET /api/pricing`, used by `pricing.html` and the wizard's
+  payment step) and what Polar product is actually *charged*
+  (`polarProductId()` in `checkout.ts`) — they can't drift apart.
+- To end the launch window early, just change `LAUNCH_PRICE_ENDS` to a past
+  date and push. Nothing else to touch.
+- The wizard's step 4 ("Payment") shows the anchored price ($79 struck
+  through, $65 current, with the "good through [date]" line) and a
+  three-row comparison table against a freelance thumbnail redesign, an
+  hour of a freelance editor's time, and YouTube's own recommended minimum
+  ad spend to promote a video — all framed as **per-video** cost, not
+  per-week, so the copy doesn't draw attention to the 12-week duration of a
+  one-time purchase (that duration-reveal is a documented way per-unit
+  framing backfires on big one-time purchases). The comparison figures live
+  in `src/routes/pricing.ts` (`COMPARISONS`) — update them if your market
+  rates change; they're static, not fetched live, so no ongoing cost or
+  fragility from calling out to a third party.
+- This shape (real anchor price, time-boxed and honestly justified, modest
+  ~18% discount rather than a steep one) was chosen deliberately over a
+  blanket low price: for a new, unverified-app-warning brand, pricing too
+  low can itself read as a quality/risk signal, which is the opposite of
+  what you want at this stage.
+
+## 13. Internal dashboard
 
 `https://<your-worker>.workers.dev/admin.html` — paste your `BATCH_SECRET` to
 pull jobs-by-status, transcript fallback rate, revert rate, restart rate, and
@@ -180,7 +211,7 @@ current capacity from `/api/admin/stats`. It's unauthenticated beyond the
 shared secret, which is fine at this scale — don't index it (already `noindex`
 + excluded from the sitemap) and don't share the secret outside your own tooling.
 
-## 13. What's deliberately not built (YAGNI, per the brief)
+## 14. What's deliberately not built (YAGNI, per the brief)
 
 - No Google OAuth verification/CASA flow — intentional, tracked against the
   100-user lifetime cap instead.
@@ -194,13 +225,13 @@ shared secret, which is fine at this scale — don't index it (already `noindex`
 - No admin auth beyond the shared secret — add real auth only if the admin
   surface needs to be shared with someone else.
 
-## 14. Advanced: local CLI setup (optional, not required)
+## 15. Advanced: local CLI setup (optional, not required)
 
 If you ever do want a local dev loop: `npm install -g wrangler`, `wrangler
 login`, `npm install`, copy `.dev.vars.example` → `.dev.vars` and fill it in,
 `npm run dev`. Entirely optional — every step above works without it.
 
-## 15. Open items to watch (carried from the brief, section 11)
+## 16. Open items to watch (carried from the brief, section 11)
 
 - Track connect-attempt vs. connect-completed conversion given the unverified-app warning.
 - The `videos.update`-overwrites-the-whole-snippet risk is handled by
