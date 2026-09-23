@@ -1,4 +1,16 @@
 async function initNav() {
+  const priceEl = document.getElementById("nav-price-popover");
+  if (priceEl) {
+    fetch("/api/pricing")
+      .then((r) => r.json())
+      .then((p) => {
+        priceEl.innerHTML = p.launchActive
+          ? `<strong>$${p.launchPrice} / job</strong> <span style="text-decoration:line-through;opacity:.6;">$${p.regularPrice}</span><br>5 videos, 12 weekly updates.`
+          : `<strong>$${p.regularPrice} / job</strong><br>5 videos, 12 weekly updates.`;
+      })
+      .catch(() => {});
+  }
+
   const el = document.getElementById("nav-account-target");
   if (!el) return;
   try {

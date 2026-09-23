@@ -10,7 +10,10 @@
   },
   "observability": { "enabled": true },
   "vars": {
-    "MAX_ACTIVE_JOBS": "150"
+    "MAX_ACTIVE_JOBS": "150",
+    "LAUNCH_PRICE": "65",
+    "REGULAR_PRICE": "79",
+    "LAUNCH_PRICE_ENDS": "2026-11-10T23:59:59Z"
   },
   "d1_databases": [
     {

@@ -104,7 +104,39 @@ document.getElementById("to-step-4")?.addEventListener("click", async () => {
   }
   currentJobId = data.jobId;
   showStep(4);
+  renderPricingScreen();
 });
+
+async function renderPricingScreen() {
+  const res = await fetch("/api/pricing");
+  const p = await res.json();
+
+  const summary = document.getElementById("price-summary");
+  const perVideo = `$${p.perVideoPrice.toFixed(0)}/video`;
+  summary.innerHTML = p.launchActive
+    ? `<div class="price-summary">
+        <span class="was">$${p.regularPrice}</span><span class="now">$${p.launchPrice}</span>
+        <div class="per-video">That's ${perVideo} — 5 videos, one payment.</div>
+        <div class="launch-note">Launch price, good through ${new Date(p.endsAt).toLocaleDateString(undefined, { month: "long", day: "numeric" })}. $${p.regularPrice} after.</div>
+      </div>`
+    : `<div class="price-summary">
+        <span class="now">$${p.regularPrice}</span>
+        <div class="per-video">That's ${perVideo} — 5 videos, one payment.</div>
+      </div>`;
+
+  const rows = p.comparisons
+    .map((c) => {
+      const amount = c.low === c.high ? `$${c.low}` : `$${c.low}–${c.high}`;
+      return `<tr><td>${c.label}</td><td>${amount} <span style="font-weight:400;color:var(--ink-dim);">${c.unit}</span></td></tr>`;
+    })
+    .join("");
+
+  document.getElementById("value-comparison").innerHTML = `
+    <table class="compare-table">
+      ${rows}
+      <tr class="peachy-row"><td>Peachy — 5 videos, 12 weekly title refreshes</td><td>${perVideo}</td></tr>
+    </table>`;
+}
 
 document.getElementById("checkout-btn")?.addEventListener("click", async () => {
   const res = await fetch("/api/checkout/create", {

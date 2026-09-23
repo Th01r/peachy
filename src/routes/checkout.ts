@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import type { Env } from "../index";
 import { verifySession } from "../lib/session";
 import { createCheckout, verifyWebhook } from "../lib/polar";
+import { polarProductId } from "../lib/pricing";
 
 export const checkout = new Hono<{ Bindings: Env }>();
 
@@ -34,7 +35,7 @@ checkout.post("/create", async (c) => {
   const session = await createCheckout({
     accessToken: c.env.POLAR_ACCESS_TOKEN,
     server: c.env.POLAR_SERVER as "sandbox" | "production",
-    productId: c.env.POLAR_PRODUCT_ID,
+    productId: polarProductId(c.env),
     successUrl: `${c.env.APP_URL}/account.html?checkout=success`,
     customerEmail: user!.email,
     metadata: { jobId },

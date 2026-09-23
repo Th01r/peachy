@@ -8,12 +8,16 @@ import { batch } from "./routes/batch";
 import { revert } from "./routes/revert";
 import { admin } from "./routes/admin";
 import { capacity } from "./routes/capacity";
+import { pricing } from "./routes/pricing";
 
 export interface Env {
   DB: D1Database;
   ASSETS: Fetcher;
   APP_URL: string;
   MAX_ACTIVE_JOBS: string;
+  LAUNCH_PRICE: string;
+  REGULAR_PRICE: string;
+  LAUNCH_PRICE_ENDS: string;
   GOOGLE_CLIENT_ID: string;
   GOOGLE_CLIENT_SECRET: string;
   GROQ_API_KEY: string;
@@ -23,7 +27,8 @@ export interface Env {
   YT_API_KEY: string;
   POLAR_ACCESS_TOKEN: string;
   POLAR_WEBHOOK_SECRET: string;
-  POLAR_PRODUCT_ID: string;
+  POLAR_PRODUCT_ID_LAUNCH: string;
+  POLAR_PRODUCT_ID_REGULAR: string;
   POLAR_SERVER: string;
   ENCRYPTION_KEY: string;
   SESSION_SECRET: string;
@@ -41,6 +46,7 @@ app.route("/api", batch); // exposes /api/run-weekly-batch
 app.route("/api/revert", revert);
 app.route("/api/admin", admin);
 app.route("/api/capacity", capacity);
+app.route("/api/pricing", pricing);
 
 // Anything not matched above and not a static asset (assets are served
 // automatically before the Worker runs) falls through here.

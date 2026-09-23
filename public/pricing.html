@@ -14,7 +14,7 @@
 <nav class="nav"><div class="wrap nav-inner">
   <a class="brand" href="/"><img src="/img/peachy-icon.svg" alt="Peachy logo"><span>Peachy</span></a>
   <div class="nav-right">
-    <a class="nav-icon" href="/pricing.html">$<span class="popover"><strong>$79 / job</strong><br>5 videos, 12 weekly updates.</span></a>
+    <a class="nav-icon" href="/pricing.html">$<span class="popover" id="nav-price-popover"><strong>See pricing</strong></span></a>
     <a class="nav-icon" id="nav-account-target" href="/#start"><img src="/img/user-icon.svg" alt="Account" class="nav-user-icon"><span class="popover">Not signed in yet</span></a>
   </div>
 </div></nav>
@@ -22,8 +22,9 @@
 <main class="wrap">
   <section class="card" style="max-width:520px;margin:40px auto;text-align:center;">
     <h1>One job. One price.</h1>
-    <p style="font-size:2.4rem;font-family:Fraunces,serif;color:var(--accent);margin:12px 0;">$79</p>
-    <p style="color:var(--ink-dim);">A one-time payment — not a subscription.</p>
+    <div id="price-block">
+      <p style="font-size:2.4rem;font-family:Fraunces,serif;color:var(--accent);margin:12px 0;">…</p>
+    </div>
     <ul style="text-align:left;margin:24px 0;line-height:2;">
       <li>5 videos of your choice</li>
       <li>12 weekly title updates (3 months)</li>
@@ -36,5 +37,23 @@
 </main>
 <footer class="wrap">© Peachy.</footer>
 <script src="/js/nav.js"></script>
+<script>
+(async () => {
+  const res = await fetch("/api/pricing");
+  const p = await res.json();
+  const el = document.getElementById("price-block");
+  if (p.launchActive) {
+    const ends = new Date(p.endsAt).toLocaleDateString(undefined, { month: "long", day: "numeric" });
+    el.innerHTML = `
+      <p style="margin:12px 0;">
+        <span style="text-decoration:line-through;color:var(--ink-dim);font-size:1.3rem;">$${p.regularPrice}</span>
+        <span style="font-size:2.4rem;font-family:Fraunces,serif;color:var(--accent);margin-left:8px;">$${p.launchPrice}</span>
+      </p>
+      <p style="color:var(--ink-dim);font-size:.9rem;">Launch price — good through ${ends}. $${p.regularPrice} after.</p>`;
+  } else {
+    el.innerHTML = `<p style="font-size:2.4rem;font-family:Fraunces,serif;color:var(--accent);margin:12px 0;">$${p.regularPrice}</p>`;
+  }
+})();
+</script>
 </body>
 </html>
