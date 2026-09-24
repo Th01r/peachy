@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://peachy.example.com/</loc></url>
-  <url><loc>https://peachy.example.com/pricing.html</loc></url>
+  <url><loc>https://pea.dpdns.org/</loc></url>
+  <url><loc>https://pea.dpdns.org/pricing.html</loc></url>
+  <url><loc>https://pea.dpdns.org/privacy.html</loc></url>
+  <url><loc>https://pea.dpdns.org/terms.html</loc></url>
 </urlset>

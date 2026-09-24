@@ -3,4 +3,4 @@ Allow: /
 Disallow: /wizard.html
 Disallow: /account.html
 Disallow: /admin.html
-Sitemap: https://peachy.example.com/sitemap.xml
+Sitemap: https://pea.dpdns.org/sitemap.xml

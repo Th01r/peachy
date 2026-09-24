@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Peachy</title>
+<meta name="description" content="What Peachy collects, why, and who it's shared with.">
+<link rel="canonical" href="https://pea.dpdns.org/privacy.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/img/peachy-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="/"><img src="/img/peachy-icon.svg" alt="Peachy logo"><span>Peachy</span></a>
+  <div class="nav-right">
+    <a class="nav-icon" href="/pricing.html">$<span class="popover" id="nav-price-popover"><strong>See pricing</strong></span></a>
+    <a class="nav-icon" id="nav-account-target" href="/#start"><img src="/img/user-icon.svg" alt="Account" class="nav-user-icon"><span class="popover">Not signed in yet</span></a>
+  </div>
+</div></nav>
+
+<main class="wrap" style="max-width:720px;">
+  <div class="card">
+    <h1>Privacy Policy</h1>
+    <p style="color:var(--ink-dim);">Last updated: September 2026</p>
+
+    <p>Peachy is a small, independent tool that updates YouTube video titles on a
+    creator's behalf. This page explains, in plain terms, what we collect and why.</p>
+
+    <h2>What we collect</h2>
+    <ul>
+      <li><strong>Google account info:</strong> your name and email address, from Google sign-in.</li>
+      <li><strong>YouTube data:</strong> the titles, descriptions, and public transcripts of the
+        specific videos you choose to include in a job — nothing from videos you don't select.</li>
+      <li><strong>A YouTube access token:</strong> encrypted at rest, used solely to read those
+        videos' current metadata and publish new titles on the schedule you set up.</li>
+      <li><strong>Payment record:</strong> our payment processor (Polar) tells us a payment
+        succeeded and its amount. We never see or store your card details.</li>
+      <li><strong>Your own optional notes:</strong> any short summary you type in about a video, to
+        help the title generator understand it better.</li>
+    </ul>
+
+    <h2>What we don't do</h2>
+    <ul>
+      <li>We don't sell your data, and we don't use it for advertising.</li>
+      <li>We don't access videos, playlists, or channel data outside the specific job you set up.</li>
+      <li>We don't post, delete, or modify anything on your channel other than the title field of
+        the videos you selected.</li>
+    </ul>
+
+    <h2>Who we share it with</h2>
+    <p>To do its job, Peachy sends the minimum necessary data to these processors:</p>
+    <ul>
+      <li><strong>Google / YouTube Data API</strong> — to read and update your video titles.</li>
+      <li><strong>Groq, and Google Gemini as a fallback</strong> — receive the video's title,
+        description, and a transcript excerpt to generate a new title suggestion. They do not
+        receive your name, email, or account info.</li>
+      <li><strong>Resend</strong> — sends your weekly update email; receives your email address and
+        the email content.</li>
+      <li><strong>Polar</strong> — handles checkout and payment; receives your email address for
+        the receipt.</li>
+      <li><strong>Cloudflare</strong> — hosts the app and its database (Workers + D1).</li>
+    </ul>
+    <p>We don't share data with anyone beyond what's needed to run these specific parts of the service.</p>
+
+    <h2>How long we keep it</h2>
+    <p>Account and job data is kept while your account exists. You can ask us to delete your
+    account and all associated data at any time (see Contact, below) — this also revokes our
+    access token immediately.</p>
+
+    <h2>Revoking access</h2>
+    <p>You can revoke Peachy's access to your Google account at any time from your Google
+    Account settings, under <em>Security → Third-party apps with account access</em>, independently
+    of anything on our end.</p>
+
+    <h2>Cookies</h2>
+    <p>Peachy sets one cookie: a signed session cookie so you stay logged in. It contains no
+    tracking data, and we don't use analytics or advertising cookies.</p>
+
+    <h2>Children</h2>
+    <p>Peachy is not directed at, and is not knowingly used by, children under 13.</p>
+
+    <h2>Changes</h2>
+    <p>If this policy changes materially, we'll update the date at the top of this page.</p>
+
+    <h2>Contact</h2>
+    <p>Questions or deletion requests: <a href="mailto:support@pea.dpdns.org">support@pea.dpdns.org</a></p>
+  </div>
+</main>
+
+<footer class="wrap">© Peachy. <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></footer>
+<script src="/js/nav.js"></script>
+</body>
+</html>
