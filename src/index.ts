@@ -52,4 +52,16 @@ app.route("/api/pricing", pricing);
 // automatically before the Worker runs) falls through here.
 app.notFound((c) => c.text("Not found", 404));
 
+// Temporary: surface the real error message instead of a bare 500 page, so we
+// can diagnose live during pre-launch testing without needing the dashboard's
+// log viewer for every failure. Tighten or remove this once things are stable
+// — it currently exposes internal error text to the client.
+app.onError((err, c) => {
+  console.error("Unhandled error:", err);
+  return c.json(
+    { error: "internal_error", message: err instanceof Error ? err.message : String(err) },
+    500
+  );
+});
+
 export default app;
